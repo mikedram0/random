@@ -2,7 +2,8 @@ from vpython import *
 import math
 ke = 9e9
 scene = canvas(width = 1600, height = 900)
-positive = sphere(pos = vector(0,0,0), color = color.red, radius = 10)
+positive = sphere(pos = vector(-50,0,0), color = color.red, radius = 10)
+negative = sphere(pos = vector(50,0,0), color = color.blue, radius = 10)
 
 theta=0
 fi=0
@@ -17,10 +18,13 @@ for r in range(100,1000,50):
                 print("ERROR_EVENT_HANDLED")
 
             else:
-                rpos = vector(i,j,k)
-                fieldpos = 9e9/mag(rpos)**2 
-                totalfield = fieldpos 
-                field1 = arrow(pos = vector(i,j,k), axis = (rpos),length= abs(totalfield)/20000 ,shaftwidth = 3)
+                pos = vector(i,j,k)
+                vec1 = pos - positive.pos
+                vec2 = pos - negative.pos
+                fieldpos = 9e9/mag(vec1)**2 * (vec1/mag(vec1))
+                fieldneg = -9e9/mag(vec2)**2 * (vec2/mag(vec2))
+                totalfield = fieldpos + fieldneg
+                field1 = arrow(pos = vector(i,j,k), axis = (totalfield),length= mag(totalfield)/20000 ,shaftwidth = 3)
 
 '''
 step=100
