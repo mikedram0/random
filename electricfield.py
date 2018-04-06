@@ -26,18 +26,4 @@ for r in range(100,1000,50):
                 totalfield = fieldpos + fieldneg
                 field1 = arrow(pos = vector(i,j,k), axis = (totalfield),length= mag(totalfield)/20000 ,shaftwidth = 3)
 
-'''
-step=100
 
-for i in range(-1000,1000,step):
-    for j in range(-1000,1000,step):
-        for k in range(-1000,1000,step):
-            if(i==0 and j==0 and k==0):
-                print("ERROR_EVENT_HANDLED")
-
-            else:
-                rpos = vector(i,j,k)
-                fieldpos = 9e9/mag(rpos)**2 
-                totalfield = fieldpos 
-                field1 = arrow(pos = vector(i,j,k), axis = (rpos),length= abs(totalfield)/1000 )
-'''
