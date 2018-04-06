@@ -20,11 +20,17 @@ for i in range(-1000,1000,100):
         totalfield = fieldpos + fieldneg
         field = arrow(pos = vector(i,j,0), axis = (totalfield/mag(totalfield)),length= mag(totalfield)/5000 )
 '''
-for i in range(-1001,1001,50):
-    for j in range(-1001,1001,50):
-        for k in range(-1001,1001,50):
-            rpos = vector(i,j,k)
-            fieldpos = 9e9/mag(rpos)**2 
-            totalfield = fieldpos 
-            field1 = arrow(pos = vector(i,j,k), axis = (rpos),length= abs(totalfield)/10000 )
-            field2 = arrow(pos = vector(-i,j,k), axis = vector(-rpos.x,rpos.y,rpos.z),length= abs(totalfield)/10000 )
+step=200
+
+for i in range(-1000,1000,step):
+    for j in range(-1000,1000,step):
+        for k in range(-1000,1000,step):
+            if(i==0 and j==0 and k==0):
+                print("ERROR_EVENT_HANDLED")
+
+            else:
+                rpos = vector(i,j,k)
+                fieldpos = 9e9/mag(rpos)**2 
+                totalfield = fieldpos 
+                field1 = arrow(pos = vector(i,j,k), axis = (rpos),length= abs(totalfield)/10000 )
+                #field2 = arrow(pos = vector(-i,j,k), axis = vector(-rpos.x,rpos.y,rpos.z),length= abs(totalfield)/10000 )
