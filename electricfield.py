@@ -20,11 +20,11 @@ for i in range(-1000,1000,100):
         totalfield = fieldpos + fieldneg
         field = arrow(pos = vector(i,j,0), axis = (totalfield/mag(totalfield)),length= mag(totalfield)/5000 )
 '''
-for i in range(-1000,1000,50):
-    for j in range(-1000,1000,50):
-        rpos = vector(i,j,0)
-        fieldpos = (float(9e9)/float((mag(rpos)**2))) 
-        totalfield = fieldpos 
-        field1 = arrow(pos = vector(i,j,0), axis = (rpos),length= abs(totalfield)/10000 )
-        field2 = arrow(pos = vector(-i,j,0), axis = vector(-rpos.x,rpos.y,rpos.z),length= abs(totalfield)/10000 )
-
+for i in range(-1001,1001,50):
+    for j in range(-1001,1001,50):
+        for k in range(-1001,1001,50):
+            rpos = vector(i,j,k)
+            fieldpos = 9e9/mag(rpos)**2 
+            totalfield = fieldpos 
+            field1 = arrow(pos = vector(i,j,k), axis = (rpos),length= abs(totalfield)/10000 )
+            field2 = arrow(pos = vector(-i,j,k), axis = vector(-rpos.x,rpos.y,rpos.z),length= abs(totalfield)/10000 )
