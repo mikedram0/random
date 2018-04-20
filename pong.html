@@ -6,15 +6,17 @@
 			<script>
 				var canvas;
 				var canvasContext;
-				var vx= 3;
-				var vy=-4;
-				var radius = 10
+				var vx=randomint(50);
+				var vy=0;
+				var radius = 4;
+				var grav = 0.5;
+				var friction = 0.2;
 
 				window.onload = function() {
 					canvas = document.getElementById('gameCanvas');
 					canvasContext = canvas.getContext('2d');
 
-					var framesPerSecond = 30;
+					var framesPerSecond = 60;
 					setInterval(function() {
 						moveEverything();
 						drawEverything();	
@@ -35,26 +37,67 @@
 					canvasContext.fillRect(x,y,width,height);
 				}
 
+				function randomint(start){
+					var temp;
+					temp = Math.random();
+					temp = temp -0.5;
+					temp = temp*2*start;
+					return temp;
+
+				}
+
 
 				function moveEverything(){
+					
 					ballx += vx
 					bally += vy
+
+					vy += grav
 					if(ballx > canvas.width-radius){
-					
+						//ballx -=vx
 						vx *= -1
+						
 					}
 					if(ballx < radius){
-						
+						//ballx += vx
 						vx *= -1
+						
+
 					}
 					if(bally > canvas.height-radius){
-						
 						vy *= -1
-					}
-					if(bally < radius){
+						if(vy>0){
+							vy-=2
+							if(vy<0){
+								vy =0 
+							}
+						}else{
+							vy+=2
+							if(vy>0){
+								vy=0
+							}
+						if(vx>0){
+							vx-=0.2
+							if(vx<0){
+								vx =0 
+							}
+						}else{
+							vx+=0.2
+							if(vx>0){
+								vx=0
+							}
+						}
 						
-						vy *= -1
+						}
 					}
+					if(bally <= radius){
+						
+						vy  *= -1
+						
+						
+					}
+
+					
 
 				}
 
