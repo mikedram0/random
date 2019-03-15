@@ -5,6 +5,8 @@ import time
 top = tk.Tk()
 canv=tk.Canvas(top, bg="white", height=250, width=300)
 list1=[]
+canvh=720
+canvw=1280
 
 class coll_obj:
     def __init__(self,radius,x,y,vx,vy):
@@ -20,14 +22,14 @@ class coll_obj:
         self.x += self.vx
         self.y += self.vy
     def collision(self):
-        if self.x  > 300:
-            self.x = 300 
+        if self.x  > canvw:
+            self.x = canvw 
             self.vx *= -1
         if self.x < 0:
             self.x = 0
             self.vx *= -1
-        if self.y > 250:
-            self.y = 250
+        if self.y > canvh:
+            self.y = canvh
             self.vy *= -1
         if self.y < 0:
             self.y = 0
