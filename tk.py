@@ -25,10 +25,14 @@ for circle in range(1):
     circle.draw()
     list1.append(circle)
 
-while(1):
+
+i=0
+while(i<1000):
+	canv.delete("all")
 	list1[0].draw()
 	list1[0].move()
 	print("test")
 	canv.pack()
 	top.update()
+	i=i+1
 	#top.mainloop()
