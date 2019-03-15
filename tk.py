@@ -39,13 +39,20 @@ class coll_obj:
             self.y = self.radius
             self.vy *= -1
         for circle in list1:
-            if math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)<= self.radius + circle.radius:
-                temp = self.x
-                self.x = circle.x
-                circle.x = temp
-                temp = self.y
-                self.y = circle.y
-                circle.y = temp
+	    vec = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
+            if vec <= self.radius + circle.radius:
+        	
+            	u1 = math.sqrt((circle.vx)**2 + (circle.vy)**2)
+            	u2 = math.sqrt((self.vx)**2 + (self.vy)**2)
+               	phi = math.acos((circle.x-self.x)/vec)
+                theta1 = math.acos(circle.vx/u1)
+                theta2 = math.acos(self.vx/u2)
+
+                circle.vx = ((2*u2*cos(theta2-phi))/2)*math.cos(phi) + u1*math.sin(theta1-phi)*math.sin(phi)
+            	circle.vy = ((2*u2*cos(theta2-phi))/2)*math.sin(phi) + u1*math.sin(theta1-phi)*math.cos(phi)
+
+            	self.vx = ((2*u1*cos(theta1-phi))/2)*math.cos(phi) + u2*math.sin(theta2-phi)*math.sin(phi)
+            	self.vy = ((2*u1*cos(theta1-phi))/2)*math.sin(phi) + u2*math.sin(theta2-phi)*math.cos(phi)
             
 
 
