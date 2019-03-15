@@ -4,7 +4,7 @@ import time
 canvh=720
 canvw=1280
 top = tk.Tk()
-canv=tk.Canvas(top, bg="white", height=canvh, width=canvw)
+canv=tk.Canvas(top, bg="black", height=canvh, width=canvw)
 list1=[]
 
 
@@ -17,7 +17,7 @@ class coll_obj:
         self.vy=vy
 	
     def draw(self):
-        c = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius)
+        c = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white")
     def move(self):
         self.x += self.vx
         self.y += self.vy
@@ -50,7 +50,7 @@ while(i<1000):
         circle.move()
         circle.collision()
         circle.draw()
-    time.sleep(0.01)
+    time.sleep(0.005)
     canv.pack()
     top.update()
     i=i+1
