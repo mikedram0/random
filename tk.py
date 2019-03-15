@@ -1,10 +1,9 @@
 import tkinter as tk
 import random
+import time
 
-canvh=600
-canvw=800
 top = tk.Tk()
-canv=tk.Canvas(top, bg="white", height=canvh, width=canvw)
+canv=tk.Canvas(top, bg="white", height=250, width=300)
 list1=[]
 
 class coll_obj:
@@ -20,21 +19,35 @@ class coll_obj:
     def move(self):
         self.x += self.vx
         self.y += self.vy
+    def collision(self):
+        if self.x  > 300:
+            self.x = 300 
+            self.vx *= -1
+        if self.x < 0:
+            self.x = 0
+            self.vx *= -1
+        if self.y > 250:
+            self.y = 250
+            self.vy *= -1
+        if self.y < 0:
+            self.y = 0
+            self.vy *= -1
+            
 
 
 for circle in range(1):
-    circle = coll_obj(random.randint(25,50),random.randint(0,canvw),random.randint(0,canvh),5,2)
+    circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),5,2)
     circle.draw()
     list1.append(circle)
 
 
-i=0
-while(i<1000):
-	canv.delete("all")
-	list1[0].draw()
-	list1[0].move()
-	print("test")
-	canv.pack()
-	top.update()
-	i=i+1
-	#top.mainloop()
+
+while(1):
+    canv.delete("all")
+    list1[0].move()
+    list1[0].collision()
+    list1[0].draw()
+    time.sleep(0.01)
+    canv.pack()
+    top.update()
+    #top.mainloop()
