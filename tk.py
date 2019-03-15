@@ -1,8 +1,10 @@
 import tkinter as tk
 import random
 
+canvh=600
+canvw=800
 top = tk.Tk()
-canv=tk.Canvas(top, bg="white", height=250, width=300)
+canv=tk.Canvas(top, bg="white", height=canvh, width=canvw)
 list1=[]
 
 class coll_obj:
@@ -21,7 +23,7 @@ class coll_obj:
 
 
 for circle in range(1):
-    circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),5,2)
+    circle = coll_obj(random.randint(25,50),random.randint(0,canvw),random.randint(0,canvh),5,2)
     circle.draw()
     list1.append(circle)
 
