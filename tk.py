@@ -37,8 +37,8 @@ class coll_obj:
             
 
 
-for circle in range(1):
-    circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),5,2)
+for circle in range(3):
+    circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),random.randint(-20,20),random.randint(-20,20))
     circle.draw()
     list1.append(circle)
 
@@ -46,9 +46,10 @@ for circle in range(1):
 i=0
 while(i<1000):
     canv.delete("all")
-    list1[0].move()
-    list1[0].collision()
-    list1[0].draw()
+    for circle in list1:
+        circle.move()
+        circle.collision()
+        circle.draw()
     time.sleep(0.01)
     canv.pack()
     top.update()
