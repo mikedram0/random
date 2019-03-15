@@ -3,7 +3,7 @@ import random
 
 top = tk.Tk()
 canv=tk.Canvas(top, bg="white", height=250, width=300)
-list=[]
+list1=[]
 
 class coll_obj:
     def __init__(self,radius,x,y,vx,vy):
@@ -23,22 +23,11 @@ class coll_obj:
 for circle in range(1):
     circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),5,2)
     circle.draw()
-    list.append(circle)
+    list1.append(circle)
 
-
-
-
-
-
-
-
-list[0].move()
-list[0].draw()
-canv.pack()
-
-
-
-top.mainloop()
-
-
-
+while(1):
+	list1[0].draw()
+	list1[0].move()
+	print("test")
+	canv.pack()
+	top.mainloop()
