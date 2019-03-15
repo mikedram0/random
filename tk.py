@@ -30,4 +30,5 @@ while(1):
 	list1[0].move()
 	print("test")
 	canv.pack()
-	top.mainloop()
+	top.update()
+	#top.mainloop()
