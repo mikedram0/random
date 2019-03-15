@@ -4,6 +4,8 @@ import random
 
 top = tk.Tk()
 canv=tk.Canvas(top, bg="white", height=250, width=300)
+list1=[]
+last_num=0
 
 class coll_obj:
 	def __init__(self,radius,x,y):
@@ -21,11 +23,13 @@ class coll_obj:
 #    circle.create()
 
 def new_obj():
-	list1=[]
+	global list1,last_num
 	list1.append("c"+str(last_num+1))
-	str(list1[last_num+1])=coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250))
-	last_num++               
+	print(list1)
+	#str(list1[last_num+1])=coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250))
+	last_num=last_num+1              
 
 canv.pack()
+for i in range(10):
+	new_obj()
 top.mainloop()
-new_obj()
