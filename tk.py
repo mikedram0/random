@@ -1,12 +1,12 @@
 import tkinter as tk
 import random
 import time
-
-top = tk.Tk()
-canv=tk.Canvas(top, bg="white", height=250, width=300)
-list1=[]
 canvh=720
 canvw=1280
+top = tk.Tk()
+canv=tk.Canvas(top, bg="white", height=canvh, width=canvw)
+list1=[]
+
 
 class coll_obj:
     def __init__(self,radius,x,y,vx,vy):
@@ -22,17 +22,17 @@ class coll_obj:
         self.x += self.vx
         self.y += self.vy
     def collision(self):
-        if self.x  > canvw:
-            self.x = canvw 
+        if self.x  > canvw - self.radius:
+            self.x = canvw - self.radius 
             self.vx *= -1
-        if self.x < 0:
-            self.x = 0
+        if self.x < self.radius:
+            self.x = self.radius
             self.vx *= -1
-        if self.y > canvh:
-            self.y = canvh
+        if self.y > canvh - self.radius:
+            self.y = canvh - self.radius
             self.vy *= -1
-        if self.y < 0:
-            self.y = 0
+        if self.y < self.radius:
+            self.y = self.radius
             self.vy *= -1
             
 
