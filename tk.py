@@ -43,21 +43,29 @@ class coll_obj:
 				continue
 			vec = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
 			if vec <= self.radius + circle.radius:
-				u1 = math.sqrt((circle.vx)**2 + (circle.vy)**2)
-				u2 = math.sqrt((self.vx)**2 + (self.vy)**2)
-				phi = math.acos((circle.x-self.x)/vec)
-				theta1 = math.acos(circle.vx/u1)
-				theta2 = math.acos(self.vx/u2)
+				temp = self.vx
+				self.vx = circle.vx
+				circle.vx = temp
+				temp = self.vy
+				self.vy = circle.vy
+				circle.vy = temp
 
-				circle.vx = ((2*u2*math.cos(theta2-phi))/2)*math.cos(phi) + u1*math.sin(theta1-phi)*math.sin(phi)
-				circle.vy = ((2*u2*math.cos(theta2-phi))/2)*math.sin(phi) + u1*math.sin(theta1-phi)*math.cos(phi)
 
-				self.vx = ((2*u1*math.cos(theta1-phi))/2)*math.cos(phi) + u2*math.sin(theta2-phi)*math.sin(phi)
-				self.vy = ((2*u1*math.cos(theta1-phi))/2)*math.sin(phi) + u2*math.sin(theta2-phi)*math.cos(phi)
+				#u1 = math.sqrt((circle.vx)**2 + (circle.vy)**2)
+				#u2 = math.sqrt((self.vx)**2 + (self.vy)**2)
+				#phi = math.acos((circle.x-self.x)/vec)
+				#theta1 = math.acos(circle.vx/u1)
+				#theta2 = math.acos(self.vx/u2)
+
+				#circle.vx = ((2*u2*math.cos(theta2-phi))/2)*math.cos(phi) + u1*math.sin(theta1-phi)*math.sin(phi)
+				#circle.vy = ((2*u2*math.cos(theta2-phi))/2)*math.sin(phi) + u1*math.sin(theta1-phi)*math.cos(phi)
+
+				#self.vx = ((2*u1*math.cos(theta1-phi))/2)*math.cos(phi) + u2*math.sin(theta2-phi)*math.sin(phi)
+				#self.vy = ((2*u1*math.cos(theta1-phi))/2)*math.sin(phi) + u2*math.sin(theta2-phi)*math.cos(phi)
 			
 
 
-for circle in range(2):
+for circle in range(5):
     circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),random.randint(-20,20),random.randint(-20,20))
     circle.draw()
     list1.append(circle)
@@ -69,7 +77,7 @@ def main():
         circle.move()
         circle.collision()
         circle.draw()
-    time.sleep(0.005)
+    time.sleep(0.01)
     canv.pack()
     top.update()
 
