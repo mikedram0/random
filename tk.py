@@ -13,46 +13,48 @@ list1=[]
 colors = ["white","blue","red","yellow","orange"]
 
 class coll_obj:
-    def __init__(self,radius,x,y,vx,vy):
-        self.radius=radius
-        self.x=x
-        self.y=y
-        self.vx=vx
-        self.vy=vy
+	def __init__(self,radius,x,y,vx,vy):
+		self.radius=radius
+		self.x=x
+		self.y=y
+		self.vx=vx
+		self.vy=vy
 	
-    def draw(self):
-        self.id = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white")
-    def move(self):
-        self.x += self.vx
-        self.y += self.vy
-    def collision(self):
-        if self.x  > canvw - self.radius:
-            self.x = canvw - self.radius 
-            self.vx *= -1
-        if self.x < self.radius:
-            self.x = self.radius
-            self.vx *= -1
-        if self.y > canvh - self.radius:
-            self.y = canvh - self.radius
-            self.vy *= -1
-        if self.y < self.radius:
-            self.y = self.radius
-            self.vy *= -1
-        for circle in list1:
-	    vec = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
-            if vec <= self.radius + circle.radius:
-        	
-            	u1 = math.sqrt((circle.vx)**2 + (circle.vy)**2)
-            	u2 = math.sqrt((self.vx)**2 + (self.vy)**2)
-               	phi = math.acos((circle.x-self.x)/vec)
-                theta1 = math.acos(circle.vx/u1)
-                theta2 = math.acos(self.vx/u2)
+	def draw(self):
+		self.id = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white")
+	def move(self):
+		self.x += self.vx
+		self.y += self.vy
+	def collision(self):
+		if self.x  > canvw - self.radius:
+			self.x = canvw - self.radius 
+			self.vx *= -1
+		if self.x < self.radius:
+			self.x = self.radius
+			self.vx *= -1
+		if self.y > canvh - self.radius:
+			self.y = canvh - self.radius
+			self.vy *= -1
+		if self.y < self.radius:
+			self.y = self.radius
+			self.vy *= -1
+		for circle in list1:
+			try:
+				vec = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
+				if vec <= self.radius + circle.radius:
+					u1 = math.sqrt((circle.vx)**2 + (circle.vy)**2)
+					u2 = math.sqrt((self.vx)**2 + (self.vy)**2)
+					phi = math.acos((circle.x-self.x)/vec)
+					heta1 = math.acos(circle.vx/u1)
+					theta2 = math.acos(self.vx/u2)
 
-                circle.vx = ((2*u2*cos(theta2-phi))/2)*math.cos(phi) + u1*math.sin(theta1-phi)*math.sin(phi)
-            	circle.vy = ((2*u2*cos(theta2-phi))/2)*math.sin(phi) + u1*math.sin(theta1-phi)*math.cos(phi)
+					circle.vx = ((2*u2*cos(theta2-phi))/2)*math.cos(phi) + u1*math.sin(theta1-phi)*math.sin(phi)
+					circle.vy = ((2*u2*cos(theta2-phi))/2)*math.sin(phi) + u1*math.sin(theta1-phi)*math.cos(phi)
 
-            	self.vx = ((2*u1*cos(theta1-phi))/2)*math.cos(phi) + u2*math.sin(theta2-phi)*math.sin(phi)
-            	self.vy = ((2*u1*cos(theta1-phi))/2)*math.sin(phi) + u2*math.sin(theta2-phi)*math.cos(phi)
+					self.vx = ((2*u1*cos(theta1-phi))/2)*math.cos(phi) + u2*math.sin(theta2-phi)*math.sin(phi)
+					self.vy = ((2*u1*cos(theta1-phi))/2)*math.sin(phi) + u2*math.sin(theta2-phi)*math.cos(phi)
+			except:
+  				print("An error occurred and handled succesfully.")
             
 
 
