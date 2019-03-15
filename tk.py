@@ -39,16 +39,16 @@ class coll_obj:
             self.vy *= -1
         for circle in list1:
             if math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)<= self.radius + circle.radius:
-                temp = self.x
-                self.x = circle.x
-                circle.x = temp
-                temp = self.y
-                self.y = circle.y
-                circle.y = temp
+                temp = self.vx
+                self.vx = circle.vx
+                circle.vx = temp
+                temp = self.vy
+                self.vy = circle.vy
+                circle.vy = temp
             
 
 
-for circle in range(10):
+for circle in range(5):
     circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),random.randint(-20,20),random.randint(-20,20))
     circle.draw()
     list1.append(circle)
