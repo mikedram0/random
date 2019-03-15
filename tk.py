@@ -41,8 +41,8 @@ for circle in range(1):
     list1.append(circle)
 
 
-
-while(1):
+i=0
+while(i<1000):
     canv.delete("all")
     list1[0].move()
     list1[0].collision()
@@ -50,4 +50,5 @@ while(1):
     time.sleep(0.01)
     canv.pack()
     top.update()
+    i=i+1
     #top.mainloop()
