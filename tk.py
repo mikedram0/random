@@ -23,6 +23,7 @@ class coll_obj:
 def new_obj():
 	list1=[]
 	list1.append("c"+str(last_num+1))
+	str(list1[last_num+1])=coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250))
 	last_num++               
 
 canv.pack()
