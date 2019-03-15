@@ -1,3 +1,4 @@
+
 import tkinter as tk
 import random
 
@@ -13,12 +14,17 @@ class coll_obj:
 		c = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius)
 
 
-c1 = coll_obj(50,150,125)
+#c1 = coll_obj(50,150,125)
 
-for circle in range(10):
-    circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250))
-    circle.create()
-                      
+#for circle in range(10):
+#    circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250))
+#    circle.create()
+
+def new_obj():
+	list1=[]
+	list1.append("c"+str(last_num+1))
+	last_num++               
 
 canv.pack()
 top.mainloop()
+new_obj()
