@@ -107,7 +107,7 @@ for circle in range(0):
 def main():
 	canv.delete("all")
 	top.bind("<Button-3>", btn_input)
-	top.bind("<B1-Motion>", btn_mot)
+	top.bind("<Button-1>", btn_mot)
 	for circle in list1:
 		circle.move()
 		circle.bordercollision()
@@ -119,9 +119,14 @@ def main():
 
 def btn_mot(event):
 	global list1
-	#print(canv.coords("current"))
-	(cx,cy)=canv.coords("current")
-	canv.create_line(cx,cy,event.x,event.y,fill="red")
+	tmpl=[0,0,0,0]
+	try:
+		if canv.coords("current")!=[]:
+			print(canv.coords("current"))
+		tmpl[]=canv.coords("current")
+		canv.create_line(tmpl[2]-tmpl[0],tmpl[3]-tmpl[1],event.x,event.y,fill="red")
+	except:
+		pass
 
 def btn_input(event):
 	global list1
