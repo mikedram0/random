@@ -5,6 +5,7 @@ import math
 import threading as thr
 canvh=480
 canvw=640
+
 top = tk.Tk()
 canv=tk.Canvas(top, bg="black", height=canvh, width=canvw)
 canv.pack()
@@ -97,33 +98,34 @@ class coll_obj:
 				circle.vx = vtan2*tx + nx * vpar2a
 				circle.vy = vtan2*ty + ny * vpar2a
 
-
-	
-
-				
-			
-
-
-for circle in range(50):
+for circle in range(1):
     circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
     circle.draw()
     list1.append(circle)
 
 
 def main():
-    canv.delete("all")
-    for circle in list1:
-        circle.move()
-        circle.bordercollision()
-        circle.btbcollision()
-        circle.draw()
-    time.sleep(1/fps)
-    top.update()
+	canv.delete("all")
+	top.bind("<Button-2>", btn_input)
+	for circle in list1:
+		circle.move()
+		circle.bordercollision()
+		circle.btbcollision()
+		circle.draw()
+	time.sleep(1/fps)
+
+	top.update()
+
+def btn_input(event):
+	global list1
+	circle = coll_obj(random.randint(10,20),event.x,event.y,random.randint(-5,5),random.randint(-5,5))
+	circle.draw()
+	list1.append(circle)
 
 
-#for j in range(10000):
-#	main()
-if __name__ == '__main__':
-    for j in range(10000):
-        t1 = thr.Thread(target=main())
-        t1.start()
+for j in range(10000):
+	main()
+#if __name__ == '__main__':
+#    for j in range(10000):
+#        t1 = thr.Thread(target=main())
+#        t1.start()
