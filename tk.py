@@ -21,14 +21,14 @@ class coll_obj:
 		self.y=y
 		self.vx=vx
 		self.vy=vy
-		self.mass = self.radius
+		self.mass = self.radius**2
 	
 	def draw(self):
 		self.id = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white")
 	def move(self):
 		self.x += self.vx
 		self.y += self.vy
-	def collision(self):
+	def bordercollision(self):
 		if self.x  > canvw - self.radius:
 			self.x = canvw - self.radius 
 			self.vx *= -1
@@ -41,6 +41,7 @@ class coll_obj:
 		if self.y < self.radius:
 			self.y = self.radius
 			self.vy *= -1
+	def btbcollision(self):
 		for circle in list1:
 			if circle == self:
 				continue
@@ -113,7 +114,8 @@ def main():
     canv.delete("all")
     for circle in list1:
         circle.move()
-        circle.collision()
+        circle.bordercollision()
+        circle.btbcollision()
         circle.draw()
     time.sleep(1/fps)
     top.update()
