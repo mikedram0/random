@@ -47,56 +47,59 @@ class coll_obj:
 			if circle == self:
 				continue
 			dist = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
-			if dist <= self.radius + circle.radius:
+			try:
+				if dist <= self.radius + circle.radius:
 
-				overlap = self.radius + circle.radius - dist
+					overlap = self.radius + circle.radius - dist
 
-				#Calculating the normal vector and normalizing it
+					#Calculating the normal vector and normalizing it
 
-				nx = (circle.x - self.x)/dist
-				ny = (circle.y - self.y)/dist
+					nx = (circle.x - self.x)/dist
+					ny = (circle.y - self.y)/dist
 
-				#Calculating the tangential vector 
+					#Calculating the tangential vector 
 
-				tx = ny
-				ty = -1*nx
+					tx = ny
+					ty = -1*nx
 
-				#Displacing the balls along the parallel axis in case of overlap
+					#Displacing the balls along the parallel axis in case of overlap
 
-				self.x -= nx * overlap/2
-				self.y -= ny * overlap/2
+					self.x -= nx * overlap/2
+					self.y -= ny * overlap/2
 
-				circle.x += nx* overlap/2
-				circle.y += ny*overlap/2
-
-
-				# Here I will use the collison "coordinates" , by breaking the velocity into a tangential and parralell part
+					circle.x += nx* overlap/2
+					circle.y += ny*overlap/2
 
 
-				#Calculating the tangential component of velocity , which are not affected by the collision
-
-				vtan1 = self.vx*tx +self.vy*ty
-				vtan2 = circle.vx*tx + circle.vy*ty
-
-				#Calculating the parralell velocity before the colision
-
-				vpar1b = self.vx * nx + self.vy * ny
-				vpar2b = circle.vx * nx + circle.vy * ny
+					# Here I will use the collison "coordinates" , by breaking the velocity into a tangential and parralell part
 
 
-				#Calculating the parallell velocities after the collision , using the elastic collision formula
+					#Calculating the tangential component of velocity , which are not affected by the collision
 
-				vpar1a = ((self.mass - circle.mass)*vpar1b + 2*circle.mass*vpar2b)/(self.mass + circle.mass)
-				vpar2a = (2*self.mass*vpar1b + (circle.mass - self.mass)*vpar2b)/(self.mass + circle.mass)
+					vtan1 = self.vx*tx +self.vy*ty
+					vtan2 = circle.vx*tx + circle.vy*ty
+
+					#Calculating the parralell velocity before the colision
+
+					vpar1b = self.vx * nx + self.vy * ny
+					vpar2b = circle.vx * nx + circle.vy * ny
 
 
-				#Setting the velocities
+					#Calculating the parallell velocities after the collision , using the elastic collision formula
 
-				self.vx = vtan1*tx + nx * vpar1a
-				self.vy = vtan1*ty + ny * vpar1a
+					vpar1a = ((self.mass - circle.mass)*vpar1b + 2*circle.mass*vpar2b)/(self.mass + circle.mass)
+					vpar2a = (2*self.mass*vpar1b + (circle.mass - self.mass)*vpar2b)/(self.mass + circle.mass)
 
-				circle.vx = vtan2*tx + nx * vpar2a
-				circle.vy = vtan2*ty + ny * vpar2a
+
+					#Setting the velocities
+
+					self.vx = vtan1*tx + nx * vpar1a
+					self.vy = vtan1*ty + ny * vpar1a
+
+					circle.vx = vtan2*tx + nx * vpar2a
+					circle.vy = vtan2*ty + ny * vpar2a
+			except:
+				pass
 
 for circle in range(0):
     circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
@@ -120,13 +123,10 @@ def main():
 def btn_mot(event):
 	global list1
 	tmpl=[0,0,0,0]
-	try:
-		if canv.coords("current")!=[]:
-			print(canv.coords("current"))
-		tmpl[]=canv.coords("current")
-		canv.create_line(tmpl[2]-tmpl[0],tmpl[3]-tmpl[1],event.x,event.y,fill="red")
-	except:
-		pass
+	if canv.coords("current")!=[]:
+		print(canv.coords("current"))
+	tmpl=canv.coords("current")
+	canv.create_line((tmpl[2]+tmpl[0])/2,(tmpl[3]+tmpl[1])/2,event.x,event.y,fill="cyan")
 
 def btn_input(event):
 	global list1
