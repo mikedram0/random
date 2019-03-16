@@ -3,14 +3,16 @@ import random
 import time
 import math
 import threading as thr
-canvh=720
-canvw=1280
+canvh=480
+canvw=640
 top = tk.Tk()
 canv=tk.Canvas(top, bg="black", height=canvh, width=canvw)
+canv.pack()
+fps = 60
 list1=[]
 
 
-colors = ["white","blue","red","yellow","orange"]
+
 
 class coll_obj:
 	def __init__(self,radius,x,y,vx,vy):
@@ -19,6 +21,7 @@ class coll_obj:
 		self.y=y
 		self.vx=vx
 		self.vy=vy
+		self.mass = self.radius
 	
 	def draw(self):
 		self.id = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white")
@@ -41,32 +44,67 @@ class coll_obj:
 		for circle in list1:
 			if circle == self:
 				continue
-			vec = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
-			if vec <= self.radius + circle.radius:
-				temp = self.vx
-				self.vx = circle.vx
-				circle.vx = temp
-				temp = self.vy
-				self.vy = circle.vy
-				circle.vy = temp
+			dist = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
+			if dist <= self.radius + circle.radius:
+
+				overlap = self.radius + circle.radius - dist
+
+				#Calculating the normal vector and normalizing it
+
+				nx = (circle.x - self.x)/dist
+				ny = (circle.y - self.y)/dist
+
+				#Calculating the tangential vector 
+
+				tx = ny
+				ty = -1*nx
+
+				#Displacing the balls along the parallel axis in case of overlap
+
+				self.x -= nx * overlap/2
+				self.y -= ny * overlap/2
+
+				circle.x += nx* overlap/2
+				circle.y += ny*overlap/2
 
 
-				#u1 = math.sqrt((circle.vx)**2 + (circle.vy)**2)
-				#u2 = math.sqrt((self.vx)**2 + (self.vy)**2)
-				#phi = math.acos((circle.x-self.x)/vec)
-				#theta1 = math.acos(circle.vx/u1)
-				#theta2 = math.acos(self.vx/u2)
+				# Here I will use the collison "coordinates" , by breaking the velocity into a tangential and parralell part
 
-				#circle.vx = ((2*u2*math.cos(theta2-phi))/2)*math.cos(phi) + u1*math.sin(theta1-phi)*math.sin(phi)
-				#circle.vy = ((2*u2*math.cos(theta2-phi))/2)*math.sin(phi) + u1*math.sin(theta1-phi)*math.cos(phi)
 
-				#self.vx = ((2*u1*math.cos(theta1-phi))/2)*math.cos(phi) + u2*math.sin(theta2-phi)*math.sin(phi)
-				#self.vy = ((2*u1*math.cos(theta1-phi))/2)*math.sin(phi) + u2*math.sin(theta2-phi)*math.cos(phi)
+				#Calculating the tangential component of velocity , which are not affected by the collision
+
+				vtan1 = self.vx*tx +self.vy*ty
+				vtan2 = circle.vx*tx + circle.vy*ty
+
+				#Calculating the parralell velocity before the colision
+
+				vpar1b = self.vx * nx + self.vy * ny
+				vpar2b = circle.vx * nx + circle.vy * ny
+
+
+				#Calculating the parallell velocities after the collision , using the elastic collision formula
+
+				vpar1a = ((self.mass - circle.mass)*vpar1b + 2*circle.mass*vpar2b)/(self.mass + circle.mass)
+				vpar2a = (2*self.mass*vpar1b + (circle.mass - self.mass)*vpar2b)/(self.mass + circle.mass)
+
+
+				#Setting the velocities
+
+				self.vx = vtan1*tx + nx * vpar1a
+				self.vy = vtan1*ty + ny * vpar1a
+
+				circle.vx = vtan2*tx + nx * vpar2a
+				circle.vy = vtan2*ty + ny * vpar2a
+
+
+	
+
+				
 			
 
 
-for circle in range(5):
-    circle = coll_obj(random.randint(25,50),random.randint(0,300),random.randint(0,250),random.randint(-20,20),random.randint(-20,20))
+for circle in range(50):
+    circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
     circle.draw()
     list1.append(circle)
 
@@ -77,14 +115,13 @@ def main():
         circle.move()
         circle.collision()
         circle.draw()
-    time.sleep(0.01)
-    canv.pack()
+    time.sleep(1/fps)
     top.update()
 
 
 #for j in range(10000):
 #	main()
 if __name__ == '__main__':
-    for j in range(1000):
+    for j in range(10000):
         t1 = thr.Thread(target=main())
         t1.start()
