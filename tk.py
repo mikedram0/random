@@ -98,7 +98,7 @@ class coll_obj:
 				circle.vx = vtan2*tx + nx * vpar2a
 				circle.vy = vtan2*ty + ny * vpar2a
 
-for circle in range(1):
+for circle in range(0):
     circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
     circle.draw()
     list1.append(circle)
@@ -106,19 +106,26 @@ for circle in range(1):
 
 def main():
 	canv.delete("all")
-	top.bind("<Button-2>", btn_input)
+	top.bind("<Button-3>", btn_input)
+	top.bind("<B1-Motion>", btn_mot)
 	for circle in list1:
 		circle.move()
 		circle.bordercollision()
 		circle.btbcollision()
 		circle.draw()
 	time.sleep(1/fps)
-
+	top.update_idletasks()
 	top.update()
+
+def btn_mot(event):
+	global list1
+	#print(canv.coords("current"))
+	(cx,cy)=canv.coords("current")
+	canv.create_line(cx,cy,event.x,event.y,fill="red")
 
 def btn_input(event):
 	global list1
-	circle = coll_obj(random.randint(10,20),event.x,event.y,random.randint(-5,5),random.randint(-5,5))
+	circle = coll_obj(random.randint(10,20),event.x,event.y,0,0)
 	circle.draw()
 	list1.append(circle)
 
