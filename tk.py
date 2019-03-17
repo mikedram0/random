@@ -23,12 +23,15 @@ class coll_obj:
 		self.vx=vx
 		self.vy=vy
 		self.mass = self.radius**2
+		self.draw()
+		self.id.config(tag="ball")
 	
 	def draw(self):
 		self.id = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white")
 	def move(self):
 		self.x += self.vx
 		self.y += self.vy
+		#canv.move(self.id,self.vx,self.vy)
 	def bordercollision(self):
 		if self.x  > canvw - self.radius:
 			self.x = canvw - self.radius 
@@ -98,14 +101,13 @@ class coll_obj:
 				circle.vx = vtan2*tx + nx * vpar2a
 				circle.vy = vtan2*ty + ny * vpar2a
 
-for circle in range(3):
+for circle in range(30):
     circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
-    circle.draw()
     list1.append(circle)
 
 
 def main():
-	canv.delete("all")
+	canv.delete("ball")
 	top.bind("<Button-3>", btn_input)
 	top.bind("<B1-Motion>", btn_mot)
 	#top.bind("<ButtonRelease1>", brelease)
@@ -115,7 +117,7 @@ def main():
 		circle.btbcollision()
 		circle.draw()
 	time.sleep(1/fps)
-	top.mainloop()
+	top.update()
 
 
 
@@ -140,7 +142,8 @@ def btn_input(event):
 
 
 
-main()
+while 1:
+	main()
 #if __name__ == '__main__':
 #    for j in range(10000):
 #        t1 = thr.Thread(target=main())
