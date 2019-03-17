@@ -3,8 +3,19 @@ import random
 import time
 import math
 import threading as thr
+#canvh=900
+#canvw=1600
 
-class coll_obj:
+#top = tk.Tk()
+#canv=tk.Canvas(top, bg="black", height=canvh, width=canvw)
+#canv.pack()
+#fps = 60
+#list1=[]
+
+
+
+
+class Ball:
 	def __init__(self,radius,x,y,vx,vy):
 		self.radius=radius
 		self.x=x
@@ -15,7 +26,7 @@ class coll_obj:
 		self.draw()
 	
 	def draw(self):
-		self.id = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white",tags="ball")
+		self.id = game1.canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white",tags="ball")
 	def move(self):
 		self.x += self.vx
 		self.y += self.vy
@@ -93,48 +104,77 @@ class coll_obj:
 
 
 class game():
-	def __init__(self):
-		self.canvh=900
-		self.canvw=1600
-		self.starting_balls=20
+	def __init__(self,root):
+		self.canvh=480
+		self.canvw=640
+		self.starting_balls=10
 		self.fps=60
-		self.list1=[]
-		self.main_frame=tk.Tk()
-		self.canv=tk.Canvas(self.main_frame, bg="black", height=self.canvh, width=self.canvw)
+		self.ball_list=[]
+		self.root=root
+		self.canv=tk.Canvas(self.root, bg="black", height=self.canvh, width=self.canvw)
 		self.canv.pack()
+		self.create_balls()
 
 	def main(self):
 		self.canv.delete("ball")
-		self.main_frame.bind("<Button-3>", self.create_balls)
-		self.main_frame.bind("<B1-Motion>", self.btn_move)
-		#self.main_frame.bind("<ButtonRelease1>", brelease)
-		for circle in self.list1:
+		#self.root.bind("<Button-3>", btn_input)
+		#self.root.bind("<B1-Motion>", btn_mot)
+		#top.bind("<ButtonRelease1>", brelease)
+		for circle in self.ball_list:
 			circle.move()
 			circle.bordercollision()
 			circle.btbcollision()
 			circle.draw()
 		time.sleep(1/self.fps)
-		self.main_frame.update()
+		self.root.update()
+
+
 
 	def create_balls(self):
-		for circle in range(3):
-			circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
-			list1.append(circle)
+		for circle in range(self.starting_balls):
+			self.ball_list.append(Ball(random.randint(10,20),random.randint(0,self.canvw),random.randint(0,self.canvh),random.randint(-5,5),random.randint(-5,5)))
 
 	def btn_move(self):
-		try:
-			if self.canv.coords("current")!=[]:
-				print(self.canv.coords("current"))
-			self.tmpl=self.canv.coords("current")
-			self.canv.create_line((self.tmpl[2]+self.tmpl[0])/2,(self.tmpl[1]+self.tmpl[3])/2,self.event.x,self.event.y,fill="cyan",width = 2)
-		except:
-			pass
+		pass
 
 	def btn_create(self):
 		circle = coll_obj(random.randint(10,20),event.x,event.y,0,0)
 		circle.draw()
-		self.list1.append(circle)
-	
+		self.ball_list.append(circle)
 
-game1=game()
-game1.main()
+
+
+
+
+
+
+
+	def btn_mot(event):
+		global list1
+		tmpl=[0,0,0,0]
+		try:
+			if canv.coords("current")!=[]:
+				print(canv.coords("current"))
+			tmpl=canv.coords("current")
+			canv.create_line((tmpl[2]+tmpl[0])/2,(tmpl[1]+tmpl[3])/2,event.x,event.y,fill="cyan",width = 2)
+		except:
+			pass
+
+
+root = tk.Tk()
+game1=game(root)
+for i in range(10000):
+	game1.main()
+
+
+
+
+
+
+
+#while 1:
+#	main()
+#if __name__ == '__main__':
+#    for j in range(10000):
+#        t1 = thr.Thread(target=main())
+#        t1.start()
