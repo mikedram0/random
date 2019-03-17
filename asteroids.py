@@ -1,9 +1,21 @@
 import pygame
 pygame.init()
-gameDisplay=pygame.display.set_mode((1600,900))
 pygame.display.set_caption("Asteroids")
-loop=1
-while loop==1:
-	for i in range(100):
-		print("hey")
-	loop=0
+
+class game:
+	def __init__(self,height,widht,count):
+		self.height=height
+		self.widht=widht
+		self.loop=1
+		self.count=count
+		self.gameDisplay=pygame.display.set_mode((self.widht,self.height))
+
+	def main(self):
+		self.loop=1
+		while self.loop==1:
+			for i in range(self.count):
+				print("hey")
+			self.loop=0
+
+game1=game(900,1600,50)
+game1.main()
