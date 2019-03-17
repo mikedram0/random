@@ -1,7 +1,7 @@
-import sys, pygame
+import sys, pygame , time
 pygame.init()
 
-size = width, height = 320, 240
+size = width, height = 800, 600
 black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
@@ -10,10 +10,11 @@ ship = pygame.image.load("starship.png")
 shiprect = ship.get_rect()
 x=width/2
 y=height/2
-vx=0.02
-vy=0.03
+vx=0.0
+vy=0.0
 
 while 1:
+    time.sleep(1/60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
 
@@ -34,7 +35,9 @@ while 1:
         y = 0
         vy *= -1
 
+    ship = pygame.transform.rotate(ship,2)
+
 
     screen.fill(black)
     screen.blit(ship, (x,y))
-    pygame.display.flip()
+    pygame.display.update()
