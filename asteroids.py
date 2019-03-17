@@ -1,4 +1,6 @@
-import sys, pygame,time
+import sys
+import pygame
+import time
 pygame.init()
 
 size = width, height = 800, 600
@@ -10,14 +12,34 @@ ship = pygame.image.load("starship.png")
 shiprect = ship.get_rect()
 x=width/2
 y=height/2
-vx=0.1
-vy=0.1
-rot=0
-rot_speed=1
+vx=0
+vy=0
+ancle=0
+anclev=0
+FPS=60
 
 while 1:
+	time.sleep(1/FPS)
+	ancle=ancle+anclev
+	#print(1)
 	for event in pygame.event.get():
-		if event.type == pygame.QUIT: sys.exit()
+		#print(2)
+		if event.type == pygame.QUIT: 
+			sys.exit()
+		if event.type == pygame.KEYDOWN:
+			print(3)
+
+			if event.key==pygame.K_a:
+				anclev=anclev+1
+				print(4)
+
+			if event.key==pygame.K_d:
+				anclev=anclev-1
+
+			if event.key==pygame.K_w:
+				pass
+
+
 
 
 	x += vx
@@ -37,8 +59,7 @@ while 1:
 		vy *= -1
 
 	old=shiprect.center
-	rot=(rot+rot_speed)%360
-	new_ship=pygame.transform.rotate(ship,rot)
+	new_ship=pygame.transform.rotate(ship,ancle)
 	shiprect = new_ship.get_rect()
 	shiprect.center=old
 
