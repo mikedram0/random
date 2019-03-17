@@ -34,12 +34,13 @@ while 1:
 		y = 0
 		vy *= -1
 
-	ship=pygame.transform.rotate(ship,2)
-	shiprect = ship.get_rect()
-	#time.sleep(100)
+	old=shiprect.center
+	new_ship=pygame.transform.rotate(ship,30)
+	shiprect = new_ship.get_rect()
+	shiprect.center=old
 
 	screen.fill(black)
-	screen.blit(ship, (x,y))
+	screen.blit(new_ship, (x,y))
 	pygame.display.update()
 
 pygame.quit()
