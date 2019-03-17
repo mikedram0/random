@@ -1,4 +1,4 @@
-import sys, pygame , time
+import sys, pygame,time,math
 pygame.init()
 
 size = width, height = 800, 600
@@ -13,10 +13,19 @@ y=height/2
 vx=0.0
 vy=0.0
 
+angle=60
+
+
+
+
 while 1:
-    time.sleep(1/60)
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                vx += math.sin(angle*3.1415/180 +3.1415) *0.1
+                vy += math.cos(angle*3.1415/180+3.1415) *0.1
 
 
     x += vx
@@ -35,9 +44,17 @@ while 1:
         y = 0
         vy *= -1
 
-    ship = pygame.transform.rotate(ship,2)
 
 
+    #angle += 0.1
+    old=shiprect.center
+    new_ship=pygame.transform.rotate(ship,angle)
+    shiprect = new_ship.get_rect()
+    shiprect.center=old
+    
     screen.fill(black)
-    screen.blit(ship, (x,y))
+    screen.blit(new_ship, (x,y))
     pygame.display.update()
+
+pygame.quit()
+quit()
