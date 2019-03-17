@@ -10,8 +10,8 @@ ship = pygame.image.load("starship.png")
 shiprect = ship.get_rect()
 x=width/2
 y=height/2
-vx=0
-vy=0
+vx=0.1
+vy=0.1
 
 while 1:
 	for event in pygame.event.get():
@@ -34,9 +34,13 @@ while 1:
 		y = 0
 		vy *= -1
 
-	ship=pygame.transform.rotate(ship,1)
+	ship=pygame.transform.rotate(ship,2)
+	shiprect = ship.get_rect()
 	#time.sleep(100)
 
 	screen.fill(black)
 	screen.blit(ship, (x,y))
-	pygame.display.flip()
+	pygame.display.update()
+
+pygame.quit()
+quit()
