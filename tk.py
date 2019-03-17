@@ -3,6 +3,17 @@ import random
 import time
 import math
 import threading as thr
+canvh=480
+canvw=640
+
+top = tk.Tk()
+canv=tk.Canvas(top, bg="black", height=canvh, width=canvw)
+canv.pack()
+fps = 60
+list1=[]
+
+
+
 
 class coll_obj:
 	def __init__(self,radius,x,y,vx,vy):
@@ -13,9 +24,12 @@ class coll_obj:
 		self.vy=vy
 		self.mass = self.radius**2
 		self.draw()
+		#self.id.itemconfig(tags="ball")
 	
-	def draw(self):
-		self.id = game1.canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white",tags="ball")
+	def draw(self):	
+
+		self.id = canv.create_oval(self.x-self.radius,self.y-self.radius,self.x+self.radius,self.y+self.radius,fill="white",tags="ball")
+
 	def move(self):
 		self.x += self.vx
 		self.y += self.vy
@@ -39,102 +53,99 @@ class coll_obj:
 				continue
 			dist = math.sqrt((circle.x-self.x)**2+(circle.y-self.y)**2)
 			if dist <= self.radius + circle.radius:
-				try:
-					overlap = self.radius + circle.radius - dist
 
-					#Calculating the normal vector and normalizing it
+				overlap = self.radius + circle.radius - dist
 
-					nx = (circle.x - self.x)/dist
-					ny = (circle.y - self.y)/dist
-					#Calculating the tangential vector 
+				#Calculating the normal vector and normalizing it
 
-		
-					tx = ny
-					ty = -1*nx
+				nx = (circle.x - self.x)/dist
+				ny = (circle.y - self.y)/dist
 
-					#Displacing the balls along the parallel axis in case of overlap
+				#Calculating the tangential vector 
 
-					self.x -= nx * overlap/2
-					self.y -= ny * overlap/2
+				tx = ny
+				ty = -1*nx
 
-					circle.x += nx* overlap/2
-					circle.y += ny*overlap/2
+				#Displacing the balls along the parallel axis in case of overlap
 
-					# Here I will use the collison "coordinates" , by breaking the velocity into a tangential and parralell part
+				self.x -= nx * overlap/2
+				self.y -= ny * overlap/2
+
+				circle.x += nx* overlap/2
+				circle.y += ny*overlap/2
 
 
-					#Calculating the tangential component of velocity , which are not affected by the collision
-
-					vtan1 = self.vx*tx +self.vy*ty
-					vtan2 = circle.vx*tx + circle.vy*ty
-
-					#Calculating the parralell velocity before the colision
-
-					vpar1b = self.vx * nx + self.vy * ny
-					vpar2b = circle.vx * nx + circle.vy * ny
+				# Here I will use the collison "coordinates" , by breaking the velocity into a tangential and parralell part
 
 
-					#Calculating the parallell velocities after the collision , using the elastic collision formula
+				#Calculating the tangential component of velocity , which are not affected by the collision
 
-					vpar1a = ((self.mass - circle.mass)*vpar1b + 2*circle.mass*vpar2b)/(self.mass + circle.mass)
-					vpar2a = (2*self.mass*vpar1b + (circle.mass - self.mass)*vpar2b)/(self.mass + circle.mass)
+				vtan1 = self.vx*tx +self.vy*ty
+				vtan2 = circle.vx*tx + circle.vy*ty
 
+				#Calculating the parralell velocity before the colision
 
-					#Setting the velocities
-
-					self.vx = vtan1*tx + nx * vpar1a
-					self.vy = vtan1*ty + ny * vpar1a
-
-					circle.vx = vtan2*tx + nx * vpar2a
-					circle.vy = vtan2*ty + ny * vpar2a
-				except:
-					pass
+				vpar1b = self.vx * nx + self.vy * ny
+				vpar2b = circle.vx * nx + circle.vy * ny
 
 
-class game():
-	def __init__(self):
-		self.canvh=900
-		self.canvw=1600
-		self.starting_balls=20
-		self.fps=60
-		self.list1=[]
-		self.main_frame=tk.Tk()
-		self.canv=tk.Canvas(self.main_frame, bg="black", height=self.canvh, width=self.canvw)
-		self.canv.pack()
+				#Calculating the parallell velocities after the collision , using the elastic collision formula
 
-	def main(self):
-		self.canv.delete("ball")
-		self.main_frame.bind("<Button-3>", self.create_balls)
-		self.main_frame.bind("<B1-Motion>", self.btn_move)
-		#self.main_frame.bind("<ButtonRelease1>", brelease)
-		for circle in self.list1:
-			circle.move()
-			circle.bordercollision()
-			circle.btbcollision()
-			circle.draw()
-		time.sleep(1/self.fps)
-		self.main_frame.update()
+				vpar1a = ((self.mass - circle.mass)*vpar1b + 2*circle.mass*vpar2b)/(self.mass + circle.mass)
+				vpar2a = (2*self.mass*vpar1b + (circle.mass - self.mass)*vpar2b)/(self.mass + circle.mass)
 
-	def create_balls(self):
-		for circle in range(self.starting_balls):
-			circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
-			list1.append(circle)
 
-	def btn_move(self):
-		try:
-			if self.canv.coords("current")!=[]:
-				print(self.canv.coords("current"))
-			self.tmpl=self.canv.coords("current")
-			self.canv.create_line((self.tmpl[2]+self.tmpl[0])/2,(self.tmpl[1]+self.tmpl[3])/2,self.event.x,self.event.y,fill="cyan",width = 2)
-		except:
-			pass
+				#Setting the velocities
 
-	def btn_create(self):
-		circle = coll_obj(random.randint(10,20),event.x,event.y,0,0)
+				self.vx = vtan1*tx + nx * vpar1a
+				self.vy = vtan1*ty + ny * vpar1a
+
+				circle.vx = vtan2*tx + nx * vpar2a
+				circle.vy = vtan2*ty + ny * vpar2a
+
+for circle in range(5):
+    circle = coll_obj(random.randint(10,20),random.randint(0,canvw),random.randint(0,canvh),random.randint(-5,5),random.randint(-5,5))
+    list1.append(circle)
+
+
+def main():
+	canv.delete("all")
+	top.bind("<Button-3>", btn_input)
+	top.bind("<1>", btn_mot)
+	#top.bind("<ButtonRelease1>", brelease)
+	for circle in list1:
+		circle.move()
+		circle.bordercollision()
+		circle.btbcollision()
 		circle.draw()
-		self.list1.append(circle)
-	
+	time.sleep(1/fps)
+	top.update()
 
-game1=game()
-for i in range(10000):
-	game1.main()
+
+
+
+
+def btn_mot(event):
+	global list1
+	try:
+		if canv.coords("current")!=[]:
+			print(canv.coords("current"))
+		tmpl=canv.coords("current")
+		canv.create_line((tmpl[2]+tmpl[0])/2,(tmpl[1]+tmpl[3])/2,event.x,event.y,fill="red",width = 4)
+	except:
+		pass
+
+def btn_input(event):
+	global list1
+	circle = coll_obj(random.randint(10,20),event.x,event.y,0,0)
+	circle.draw()
+	list1.append(circle)
+
+
+
+while 1:
+	main()
+#if __name__ == '__main__':
+#    for j in range(10000):
+#        t1 = thr.Thread(target=main())
+#        t1.start()
