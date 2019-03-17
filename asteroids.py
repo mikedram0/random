@@ -12,6 +12,8 @@ x=width/2
 y=height/2
 vx=0.1
 vy=0.1
+rot=0
+rot_speed=1
 
 while 1:
 	for event in pygame.event.get():
@@ -35,7 +37,8 @@ while 1:
 		vy *= -1
 
 	old=shiprect.center
-	new_ship=pygame.transform.rotate(ship,30)
+	rot=(rot+rot_speed)%360
+	new_ship=pygame.transform.rotate(ship,rot)
 	shiprect = new_ship.get_rect()
 	shiprect.center=old
 
