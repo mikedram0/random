@@ -4,7 +4,8 @@ import time
 import math
 pygame.init()
 
-size = width, height = 1600, 900
+size = width, height = 640, 480
+#size = width, height = 1600, 900
 black = 0, 0, 0
 
 #screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -30,14 +31,16 @@ class Bullet:
         self.bvy=math.cos(angle*3.1415/180+3.1415)
        # self.fire()
 
-    def fire(self):
-        
-        print("test")
+    def checkdelete(self):
+        if self.bposx >width or self.bposx<0 or self.bposy > height or self.bposy < 0:
+        	bullets.remove(self)
 
     def draw(self):
-        self.bposx=self.bposx+self.bvx
-        self.bposy=self.bposy+self.bvy
         screen.blit(bullet_img, (self.bposx,self.bposy))
+        
+    def move(self):
+        self.bposx=self.bposx+self.bvx*20
+        self.bposy=self.bposy+self.bvy*20
 
 while 1:
     time.sleep(1/FPS)
@@ -55,7 +58,7 @@ while 1:
             if event.key==pygame.K_a:
                 anglev=anglev+1
 
-            if event.key==pygame.K_s:
+            if event.key==pygame.K_SPACE:
                 bullets.append(Bullet(x,y))
                 print("piew")
                 
@@ -81,7 +84,7 @@ while 1:
     if y<0-shiprect[3]:
         y = height
         
-
+    print(bullets)
     old=shiprect.center
     new_ship=pygame.transform.rotate(ship,angle)
     shiprect = new_ship.get_rect()
@@ -93,7 +96,10 @@ while 1:
     screen.fill(black)
 
     for bullet in bullets:
-        bullet.draw()
+        bullet.checkdelete()
+        if bullets.count(bullet):
+            bullet.move()
+            bullet.draw()
 
 
     screen.blit(new_ship, (x,y))
