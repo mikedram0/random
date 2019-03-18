@@ -7,12 +7,12 @@ import random
 
 pygame.init()
 
-size = width, height = 640, 480
+size = width, height = 1920, 1080
 #size = width, height = 1600, 900
 black = 0, 0, 0
 
-#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-screen = pygame.display.set_mode((width, height))
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+#screen = pygame.display.set_mode((width, height))
 
 ship = pygame.image.load("starship.png")
 bullet_img = pygame.image.load("bullet.png")
@@ -54,8 +54,9 @@ class asteroid:
 
 	def collision(self):
 		asteroids_list.remove(self)
-		asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
-		asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
+		if self.size > 1:
+			asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
+			asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
 
 	def move(self):
 		self.aposx=self.aposx+self.avx
