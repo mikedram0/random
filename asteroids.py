@@ -36,6 +36,7 @@ anglev=0
 FPS=60
 bullets=[]
 asteroids_list=[]
+health = 100
 
 class asteroid:
     def __init__(self,x,y,size):
@@ -56,8 +57,8 @@ class asteroid:
                 if self.size > 1 and bullet.type == 1:
                     asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
                     asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
-            
-
+        if x > self.aposx and x < self.aposx + self.bbox[2] and y > self.aposy and y < self.aposy + self.bbox[3]:            
+            health = health - self.size*5
     def move(self):
         self.aposx=self.aposx+self.avx
         self.aposy=self.aposy+self.avy
@@ -102,6 +103,10 @@ class Bullet:
 while 1:
     time.sleep(1/FPS)
     angle=angle+anglev
+
+    print(health)
+    if health <= 0:
+        sys.exit()
     
     #print(1)
     for event in pygame.event.get():
