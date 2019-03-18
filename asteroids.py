@@ -50,6 +50,7 @@ class asteroid:
         self.bbox = self.image.get_rect()
 
     def collisiondetect(self):
+        global health
         for bullet in bullets:
             if bullet.bposx > self.aposx and bullet.bposx < self.aposx + self.bbox[2] and bullet.bposy > self.aposy and bullet.bposy < self.aposy + self.bbox[3]:
                 asteroids_list.remove(self)
@@ -58,7 +59,8 @@ class asteroid:
                     asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
                     asteroids_list.append(asteroid(self.aposx,self.aposy,self.size-1))
         if x > self.aposx and x < self.aposx + self.bbox[2] and y > self.aposy and y < self.aposy + self.bbox[3]:            
-            health = health - self.size*5
+            health = health - self.size*10
+            asteroids_list.remove(self)
     def move(self):
         self.aposx=self.aposx+self.avx
         self.aposy=self.aposy+self.avy
