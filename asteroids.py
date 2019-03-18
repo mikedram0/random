@@ -14,6 +14,9 @@ black = 0, 0, 0
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 #screen = pygame.display.set_mode((width, height))
 
+pew = pygame.mixer.Sound("pew.wav")
+lasersound = pygame.mixer.Sound("lasersound.wav")
+
 pygame.mixer.music.load('beat.mp3')
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.03)
@@ -22,6 +25,7 @@ bullet_img = pygame.image.load("bullet.png")
 asteroid_small = pygame.image.load("small.png")
 asteroid_medium = pygame.image.load("medium.png")
 asteroid_large = pygame.image.load("large.png")
+laser = pygame.image.load("laser.png")
 
 astersize = {1:asteroid_small,2:asteroid_medium,3:asteroid_large}
 
@@ -92,7 +96,10 @@ class Bullet:
             bullets.remove(self)
 
     def draw(self):
-        screen.blit(bullet_img, (self.bposx,self.bposy))
+        if self.type == 1:
+            screen.blit(bullet_img, (self.bposx,self.bposy))
+        if self.type == 2:
+            screen.blit(laser, (self.bposx,self.bposy))
         
     def move(self):
         self.bposx=self.bposx+self.bvx*20
@@ -106,7 +113,7 @@ while 1:
     time.sleep(1/FPS)
     angle=angle+anglev
 
-    print(health)
+    #print(health)
     if health <= 0:
         sys.exit()
     
@@ -125,10 +132,13 @@ while 1:
 
             if event.key==pygame.K_SPACE:
                 bullets.append(Bullet(x,y,1))
+                
+                pygame.mixer.Sound.play(pew)
                 #print("piew")
 
             if event.key==pygame.K_LSHIFT:
                 bullets.append(Bullet(x,y,2))
+                pygame.mixer.Sound.play(lasersound)
                 #print("piew")
                 
 
