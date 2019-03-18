@@ -28,16 +28,15 @@ class bullet:
 		self.bposy=bposy
 		self.bvx=bvx
 		self.bvy=bvy
-		self.bullet_rect=self.bullet_rect.get_rect()
 		self.fire()
 
 	def fire(self):
 		self.bposx=self.bposx+self.bvx
 		self.bposy=self.bposy+self.bvy
 		print("test")
-		screen.blit(bullet_img,(int(self.bposx),int(self.bposy)))
-		print(int(self.bposx),int(self.bposy))
 
+	def draw(self):
+		screen.blit(self, (self.bposx,self.bposy))
 
 while 1:
 	time.sleep(1/FPS)
