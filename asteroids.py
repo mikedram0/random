@@ -4,12 +4,14 @@ import time
 import math
 pygame.init()
 
-size = width, height = 800, 600
+size = width, height = 1600, 900
 black = 0, 0, 0
 
-screen = pygame.display.set_mode(size)
+#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((width, height))
 
 ship = pygame.image.load("starship.png")
+bullet_img = pygame.image.load("bullet.png")
 shiprect = ship.get_rect()
 x=width/2
 y=height/2
@@ -18,6 +20,24 @@ vy=0
 angle=0
 anglev=0
 FPS=60
+bullets=[]
+
+class Bullet:
+    def __init__(self,bposx,bposy):
+        self.bposx=bposx
+        self.bposy=bposy
+        self.bvx=math.sin(angle*3.1415/180 +3.1415) 
+        self.bvy=math.cos(angle*3.1415/180+3.1415)
+       # self.fire()
+
+    def fire(self):
+        
+        print("test")
+
+    def draw(self):
+        self.bposx=self.bposx+self.bvx
+        self.bposy=self.bposy+self.bvy
+        screen.blit(bullet_img, (self.bposx,self.bposy))
 
 while 1:
     time.sleep(1/FPS)
@@ -29,9 +49,15 @@ while 1:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             
+            if event.key==pygame.K_ESCAPE:
+                sys.exit()
 
             if event.key==pygame.K_a:
                 anglev=anglev+1
+
+            if event.key==pygame.K_s:
+                bullets.append(Bullet(x,y))
+                print("piew")
                 
 
             if event.key==pygame.K_d:
@@ -61,10 +87,17 @@ while 1:
     shiprect = new_ship.get_rect()
     shiprect.center=old
 
+
+
+
     screen.fill(black)
+
+    for bullet in bullets:
+        bullet.draw()
+
+
     screen.blit(new_ship, (x,y))
     pygame.display.update()
 
 pygame.quit()
 quit()
-
