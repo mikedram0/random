@@ -15,7 +15,7 @@ int main(){
 		sprintf(c,"%ld",i);
 		good=1;
 		for(j=0;j<21;j++){
-			if(c[j]=='0'){
+			if(c[j]=='0' || c[j]=='5'){
 				good=0;
 				break;
 			}
